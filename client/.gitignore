@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+*.local
+
+# Environment
+.env
+.env.local
+
+# Testing
+coverage/
+
+# IDE
+.vscode/
+.idea/

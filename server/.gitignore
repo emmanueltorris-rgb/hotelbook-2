@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+
+# Environment
+.env
+.env.local
+
+# Database
+*.db
+*.db-journal
+
+# Testing
+coverage/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
