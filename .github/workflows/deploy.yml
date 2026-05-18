@@ -1,0 +1,135 @@
+name: Deploy to Railway
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: hotelbook_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      # Install root dependencies with cache
+      - name: Install root dependencies
+        run: npm ci --silent
+
+      # Setup server environment and dependencies
+      - name: Install server dependencies
+        run: |
+          cd server
+          npm ci --silent
+
+      # Generate Prisma client
+      - name: Generate Prisma client
+        run: |
+          cd server
+          npm run db:generate
+
+      # Run server tests
+      - name: Run server tests
+        run: |
+          cd server
+          npm run test
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/hotelbook_test
+          NODE_ENV: test
+
+      # Setup client environment and dependencies
+      - name: Install client dependencies
+        run: |
+          cd client
+          npm ci --silent
+
+      # Run client tests
+      - name: Run client tests
+        run: |
+          cd client
+          npm run test
+        env:
+          VITE_API_URL: http://localhost:5000/api
+
+      # Build server
+      - name: Build server
+        run: |
+          cd server
+          npm run build
+        env:
+          NODE_ENV: production
+
+      # Build client with production API URL
+      - name: Build client
+        run: |
+          cd client
+          npm run build
+        env:
+          VITE_API_URL: ${{ secrets.RAILWAY_API_URL || 'https://hotelbook-api.up.railway.app/api' }}
+
+      # Upload build artifacts for deployment
+      - name: Upload build artifacts
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v3
+        with:
+          name: builds
+          path: |
+            server/dist
+            server/node_modules/.prisma
+            client/dist
+          retention-days: 1
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Railway
+        uses: railwayapp/deploy-action@v1
+        with:
+          token: ${{ secrets.RAILWAY_TOKEN }}
+          environment: production
+
+      - name: Notify Deployment
+        if: success()
+        run: |
+          echo "✅ Deployment successful!"
+          echo "App is live at: https://hotelbook-api.up.railway.app"
+          echo "Check status: railway.app/dashboard"
+
+      - name: Notify Failure
+        if: failure()
+        run: |
+          echo "❌ Deployment failed!"
+          echo "Check logs: GitHub Actions → This workflow run"
+

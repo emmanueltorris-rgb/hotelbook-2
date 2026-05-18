@@ -11,14 +11,20 @@
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:client": "cd client && npm run dev",
     "dev:server": "cd server && npm run dev",
-    "build": "cd client && npm run build",
+    "build": "npm run build:server && npm run build:client",
+    "build:server": "cd server && npm run build",
+    "build:client": "cd client && npm run build",
+    "start": "cd server && npm run start",
     "test": "cd client && npm run test:run && cd ../server && npm run test",
     "lint": "cd client && npm run lint && cd ../server && npm run lint",
+    "db:migrate": "cd server && npm run db:migrate",
+    "db:seed": "cd server && npm run db:seed",
     "version:patch": "npm version patch",
     "version:minor": "npm version minor",
     "version:major": "npm version major"
   },
   "devDependencies": {
+    "@railway/cli": "^4.58.0",
     "concurrently": "^8.2.2"
   }
 }
