@@ -6,7 +6,7 @@
 
 A modern, full-stack hotel booking application built with React 19, Express, and PostgreSQL. Features M-Pesa STK push payments, OAuth authentication, and fully responsive design.
 
-## 🚀 Features
+## Features
 
 - **React 19** with modern hooks and concurrent features
 - **React Router v7** for client-side routing
@@ -20,7 +20,7 @@ A modern, full-stack hotel booking application built with React 19, Express, and
 - **30%+ Test Coverage** with Vitest
 - **Semantic Versioning** (currently v1.0.0)
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 hotelbook/
@@ -42,7 +42,7 @@ hotelbook/
 └── .github/workflows/      # CI/CD configuration
 ```
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 - React 19 + TypeScript
@@ -62,7 +62,7 @@ hotelbook/
 - M-Pesa Daraja API
 - Helmet, CORS, Rate Limiting
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js 20+
@@ -135,7 +135,7 @@ npm run dev:client   # http://localhost:3000
 npm run dev:server   # http://localhost:5000
 ```
 
-## 📱 Application Flow
+## Application Flow
 
 1. **Browse Hotels** - Search and filter hotels by location, price, and amenities
 2. **View Details** - See hotel images, amenities, and availability
@@ -144,7 +144,7 @@ npm run dev:server   # http://localhost:5000
 5. **M-Pesa Payment** - Enter phone number and receive STK push notification
 6. **Booking Confirmation** - Receive confirmation and view in dashboard
 
-## 🧪 Testing
+## Testing
 
 ### Client Tests
 ```bash
@@ -166,7 +166,7 @@ npm run test:watch  # Watch mode
 - Branches: ≥30%
 - Statements: ≥30%
 
-## 🔄 CI/CD Pipeline
+## CI/CD Pipeline
 
 The GitHub Actions workflow (`/.github/workflows/ci-cd.yml`) handles:
 
@@ -181,7 +181,7 @@ The GitHub Actions workflow (`/.github/workflows/ci-cd.yml`) handles:
 - `VERCEL_PROJECT_ID`
 - `RENDER_DEPLOY_HOOK_URL`
 
-## 📝 API Endpoints
+## API Endpoints
 
 ### Authentication
 | Method | Endpoint | Description |
@@ -213,7 +213,7 @@ The GitHub Actions workflow (`/.github/workflows/ci-cd.yml`) handles:
 | POST | `/api/payments/callback` | M-Pesa webhook |
 | GET | `/api/payments/status/:id` | Check payment status |
 
-## 🏗️ Deployment
+## Deployment
 
 ### Client (Vercel)
 ```bash
@@ -227,7 +227,7 @@ vercel --prod
 3. Start command: `npm start`
 4. Add PostgreSQL database
 
-## 📦 Versioning
+## Versioning
 
 This project follows [Semantic Versioning](https://semver.org/):
 
@@ -242,7 +242,7 @@ npm run version:minor   # 1.0.0 → 1.1.0
 npm run version:major   # 1.0.0 → 2.0.0
 ```
 
-## 🔐 Security
+## Security
 
 - JWT tokens with 7-day expiration
 - Bcrypt password hashing (12 rounds)
@@ -252,11 +252,7 @@ npm run version:major   # 1.0.0 → 2.0.0
 - SQL injection prevention via Prisma
 - XSS protection via React escaping
 
-## 📄 License
-
-MIT License - see LICENSE file for details.
-
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
